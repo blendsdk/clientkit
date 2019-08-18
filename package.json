@@ -1,0 +1,39 @@
+{
+  "name": "@blendsdk/clientkit",
+  "version": "0.9.1",
+  "description": "A utility kit to create client side API in TypeScript for invoking REST methods",
+  "main": "dist/index.js",
+  "author": "Gevik Babakhani <gevikb@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blendsdk/clientkit.git"
+  },
+  "keywords": [
+    "browser",
+    "api",
+    "axios",
+    "blendsk",
+    "typescript",
+    "code generator"
+  ],
+  "license": "MIT",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "rm -fR ./dist && tsc",
+    "watch": "rm -fR ./dist && tsc -w ",
+    "test": "jest --detectOpenHandles",
+    "patch-publish": "is_git_branch master && yarn build && yarn publish --patch --access public && git push origin master --tags"
+  },
+  "dependencies": {
+    "@blendsdk/stdlib": "^1.0.8",
+    "axios": "^0.19.0",
+    "tslib": "^1.10.0"
+  },
+  "devDependencies": {
+    "@blendsdk/git": "^1.0.3",
+    "@types/jest": "^24.0.17",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3"
+  }
+}
