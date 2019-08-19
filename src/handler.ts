@@ -1,5 +1,6 @@
 import { isInstanceOf } from "@blendsdk/stdlib/dist/isInstanceOf";
 import { AxiosResponse } from "axios";
+import pathToRegexp from "path-to-regexp";
 import { IServerRequestConfig } from "./types";
 import { getTokenName } from "./utils";
 
@@ -126,6 +127,28 @@ export class EndpointHandler<RequestType, ResponseType> {
      */
     public getRequest(): RequestType {
         return this.request;
+    }
+
+    /**
+     * Processes special (express style) route parameters
+     *
+     * @param {RequestType} params
+     * @returns {string}
+     * @memberof EndpointHandler
+     */
+    public processURLParameters(params: RequestType): string {
+        // replace ?/ with a place holder so the new URL(...) can parse
+        const tmp = this.config.url.replace(/\?\//gi, "+$+"),
+            url = new URL(tmp),
+            toPath = pathToRegexp.compile(url.pathname.replace(/\+\$\+/gi, "?/"));
+        return [
+            url.protocol ? `${url.protocol}//` : "",
+            url.username && url.password ? `${url.username}:${url.password}@` : "",
+            url.host,
+            toPath(params as any),
+            url.search,
+            url.hash
+        ].join("");
     }
 
     /**
