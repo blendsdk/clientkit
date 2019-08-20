@@ -1,8 +1,14 @@
 import { isInstanceOf } from "@blendsdk/stdlib/dist/isInstanceOf";
+import { IDictionary } from "@blendsdk/stdlib/dist/types";
 import { AxiosResponse } from "axios";
 import pathToRegexp from "path-to-regexp";
 import { IServerRequestConfig } from "./types";
 import { getTokenName } from "./utils";
+
+/**
+ * Global cache of compiled path-to-regexp instances
+ */
+const urlBuilderCache: IDictionary = {};
 
 /**
  * This class implements a Request/Response handler
